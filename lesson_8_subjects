@@ -1,7 +1,7 @@
 Урок №8. Subjects
 
 В RxJava кроме основных источников данных еще существуют subjects. Особенность subject'ов заключается в том, что они выступают и как источник данных, и как подписчик.
-Subject - это интерфейс, который имеет 6 реализация. AsyncSubject, PublishSubject, ReplaySubject, BehaviorSubject, SerializedSubject, UnicastSubject.
+Subject - это интерфейс, который имеет 6 реализация. AsyncSubject, PublishSubject, ReplaySubject, BehaviorSubject, UnicastSubject.
 
 Nota: Каждая из реализаций не имеет публичного конструктора. Чтобы создать экземпляр любой из реалиаций необходимо пользоваться фабричным методом create().
 
@@ -72,4 +72,44 @@ Nota: BehaviorSubject можно задать задать значение по
 Так как роль BehaviorSubject – всегда иметь доступные данные, считается неправильным создавать его без начального значения, также как и завершать его.
 
 AsyncSubject
+
+AsyncSubject также хранит последнее значение. Разница в том, что он не выдает данные, пока последовательность не закончится, то есть пока не будет вызван метод onCompleted().
+Его используют, когда нужно выдать единое значение и тут же завершиться.
+
+Example:
+AsyncSubject<Integer> s = AsyncSubject.create();
+s.subscribe(v -> System.out.println(v));
+s.onNext(0);
+s.onNext(1);
+s.onNext(2);
+s.onCompleted();
+
+Output:
+2
+
+Nota:
+Обратите внимание, что если бы мы не вызвали s.onCompleted(), этот код ничего бы не напечатал.
+
+UnicastSubject
+
+UnicastSubject допускает только одного подписчика и отправляет все элементы независимо от времени подписки.
+
+Example:
+Observable<Integer> observable = 
+	Observable.range(1, 5)
+		  .subscribeOn(Schedulers.io());
+
+
+UnicastSubject<Integer> pSubject = UnicastSubject.create();
+observable.subscribe(pSubject);
+
+pSubject.subscribe(it -> System.out.println("onNext: " + it));
+
+Output:
+onNext: 1
+onNext: 2
+onNext: 3
+onNext: 4
+onNext: 5
+
 
