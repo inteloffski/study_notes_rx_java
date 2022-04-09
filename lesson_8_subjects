@@ -1,0 +1,53 @@
+Урок №8. Subjects
+
+В RxJava кроме основных источников данных еще существуют subjects. Особенность subject'ов заключается в том, что они выступают и как источник данных, и как подписчик.
+Subject - это интерфейс, который имеет 6 реализация. AsyncSubject, PublishSubject, ReplaySubject, BehaviorSubject, SerializedSubject, UnicastSubject.
+
+PublishSubject
+
+PublishSubject работает следующим образом, когда данные передаются в publushsubject, он их выдает всем подписчикам, которые подписаны на него в данный момент.
+
+Example:
+
+PublishSubject<Integer> subject = PublishSubject.create();
+subject.onNext(0);
+subject.subscribe(System.out::println);
+subject.onNext(1);
+subject.onNext(2);
+subject.onNext(3);
+
+Output:
+1
+2
+3
+
+Nota:
+Стоит обратить внимание, что 0 не был напечатан, потому что на момент публикации 0 у PublishSubject не было ни одного подписчика.
+
+ReplaySubject
+
+ReplaySubject имеет специальную возможность кэшировать все поступившие в него данные. Таким образом, когда у него появиться новый подписчик, то все данные будут переданы в 
+подписчика с самого начала.
+
+Example:
+
+ReplaySubject<Integer> s = ReplaySubject.create();
+s.subscribe(v -> System.out.println("Early:" + v));
+s.onNext(0);
+s.onNext(1);
+s.subscribe(v -> System.out.println("Late: " + v)); 
+s.onNext(2);
+
+Output:
+Early:0
+Early:1
+Late: 0
+Late: 1
+Early:2
+Late: 2
+
+Nota: Таким образом, мы видим, что все данные поступили обоим подписчикам. Иногда кэшировать все подряд не лучшая идея, поэтому с помощью двух методов, мы можем регулировать 
+размер кэшированных данных и время жизни этого кэша. ReplaySubject.createWithSize() - задает размер кэша. ReplaySubject.createWithTime() - задает время жизни кэша.
+
+BehaviorSubject
+ 
