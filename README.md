@@ -8,7 +8,7 @@
 + [Жизненные цикл Rx-цепочек](#Жизненные-цикл-Rx-цепочек)
 + [Утилитарные операторы](#Утилитарные-операторы)
 + [Типы планировщиков](#Типы-планировщиков)
-+ [Subject. Типы Subject](#Subject.-Типы-Subject)
++ [Subject. Типы Subject](#Subject-Типы-Subject)
 + [Cold stream and Hot stream](#Cold-stream-and-Hot-stream)
 
 ## Типы источников данных
