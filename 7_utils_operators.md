@@ -84,7 +84,7 @@ _Описание:_
 
 _Пример использования:_
 
-```
+```kotlin
 Observable.interval(100, TimeUnit.MILLISECONDS)
                 .take(3)
                 .timeInterval()
@@ -99,7 +99,7 @@ _Описание:_
 
 _Пример использования:_
 
-```
+```kotlin
 Observable.just(1l, 2l, 3l, 4l, 5l, 6l)
           .timer(1, TimeUnit.SECONDS)
           .timeout(500, TimeUnit.MILLISECONDS)
